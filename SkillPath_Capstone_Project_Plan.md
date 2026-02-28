@@ -48,7 +48,7 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 
 ## Technical Implementation
 
-### Page Structure (Meets 2+ Pages Requirement ✅)
+### Page Structure (Meets 2+ Pages Requirement)
 
 **Page 1 - Dashboard/Home:**
 - Welcome message with user name
@@ -80,13 +80,13 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 
 ## Features from Capstone Requirements List
 
-✅ **API integration** (job board API - MANDATORY)  
-✅ **Responsive design** (mobile + desktop views with media queries)  
-✅ **Arrays/objects** to organize and manipulate data  
-✅ **Form validation** (adding skills, goals, resources)  
-✅ **Data visualization** (skill progress charts using Chart.js)  
-✅ **Local storage** or JSON file to persist user data between sessions  
-✅ **Multiple pages/routes** (Dashboard, Job Search, Resources, Goals)
+**API integration** (job board API)  
+**Responsive design** (mobile + desktop views with media queries)  
+**Arrays/objects** to organize and manipulate data  
+**Form validation** (adding skills, goals, resources)  
+**Data visualization** (skill progress charts using Chart.js)  
+**Local storage** or JSON file to persist user data between sessions  
+**Multiple pages/routes** (Dashboard, Job Search, Resources, Goals)
 
 **Bonus considerations:**
 - User registration/login system (if you want to go further)
@@ -96,7 +96,7 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 
 ---
 
-## Recommended Tech Stack
+## Technical Skills
 
 ### Frontend:
 - **HTML5** - Semantic markup
@@ -105,24 +105,24 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 
 ### API:
 - **Adzuna API** (recommended - free tier, well-documented, global job listings)
-  - Sign up at: https://developer.adzuna.com/
-- **Alternative:** The Muse API, RemoteOK API, or GitHub Jobs API
+  - Need to Sign up at: https://developer.adzuna.com/
+- **Alternative API's I can use for Job Board:** The Muse API, RemoteOK API, or GitHub Jobs API
 
 ### Libraries/Tools:
-- **Chart.js** - For visualizing skill progress and statistics
-- **LocalStorage API** - Store user data persistently in the browser
-- **Fetch API** - Make HTTP requests to job board API
+- **Chart.js** - I will use for visualizing skill progress and statistics
+- **LocalStorage API** - To store user data persistently in the browser
+- **Fetch API** - To make HTTP requests to job board API
 
 ### Version Control:
-- **Git/GitHub** - 10+ commits required for capstone
+- **Git/GitHub** - Will use GitHub to track changes.
 
 ---
 
-## Why This Will Impress Employers
+## Why I would like to create this project
 
 1. **Relatable Problem** - Every developer understands job hunting struggles
-2. **Practical Utility** - It's actually useful, not just a demo
-3. **Shows Initiative** - Building solutions to your own problems
+2. **Practical Utility** - It's actually useful, not just a for this demo
+3. **Shows Initiative** - Building solutions to my own development challenges.
 4. **Professional Presentation** - Career-focused theme resonates with hiring managers
 5. **Technical Skills** - Demonstrates API integration, data management, responsive design
 6. **Portfolio Piece** - Can be showcased during interviews and on your resume
@@ -141,35 +141,18 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 - Still meets all capstone requirements
 - Good for a portfolio piece that runs entirely client-side
 
-### If You Want to Add User Accounts (Optional - More Complex):
+### If I Want to Add User Accounts:
 
-**Think carefully before adding login functionality.** Authentication is complex and easy to get wrong. If you do want user accounts:
+1. **Will use a trusted authentication service:**
+   - **Firebase Authentication** (Google)
+   - **Auth0**
+   - **Supabase**
 
-1. **DON'T build your own authentication from scratch**
-   - Password hashing, session management, and secure storage are complex
-   - Security vulnerabilities can be career-damaging in a portfolio piece
+### Thoughts on approach:
+Start with LocalStorage (no login is required). If I want to add authentication later, talk to a mentor about best approach using authenticator service.
 
-2. **DO use a trusted authentication service:**
-   - **Firebase Authentication** (Google) - recommended for beginners
-   - **Auth0** - another good option
-   - **Supabase** - includes database + auth
-   - These handle the security for you
+**Security is important, so start without authentication.
 
-3. **Never store:**
-   - Passwords in plain text (use the auth service to handle this)
-   - API keys in your frontend code (they'll be visible to anyone)
-   - Sensitive user data without encryption
-
-4. **API Key Security:**
-   - Your job board API key should NOT be in your frontend JavaScript
-   - For a student project using free-tier APIs, this is often acceptable but note it in your README
-   - For production: use a backend proxy to hide keys
-   - Alternative: Use APIs that don't require keys (like RemoteOK)
-
-### Recommendation:
-Start with LocalStorage-only (no login). It's simpler, meets requirements, and avoids security pitfalls. If you want to add authentication later, talk to a mentor first and use Firebase Auth.
-
-**Security is important, but don't let it stop you from building.** A working project with LocalStorage is much better than an abandoned project that got stuck on authentication.
 
 ---
 
@@ -204,37 +187,9 @@ Start with LocalStorage-only (no login). It's simpler, meets requirements, and a
 
 ---
 
-## README Requirements Checklist
-
-Your README should include:
-
-- [ ] Project title and description (at least one paragraph)
-- [ ] List of 3+ features implemented from the requirements list
-- [ ] Installation/setup instructions
-- [ ] How to obtain an API key (step-by-step for Adzuna or your chosen API)
-- [ ] Required dependencies (list any libraries like Chart.js)
-- [ ] Browser requirements (modern browser with LocalStorage support)
-- [ ] Citation of AI usage (if you used ChatGPT, Claude, Copilot, etc.)
-- [ ] Screenshots of your application
-- [ ] Link to live demo (if deployed on GitHub Pages, Netlify, etc.)
-
----
-
-## Tips for Success
-
-1. **Start Early** - Don't wait until the last minute
-2. **Commit Frequently** - Make small, meaningful commits (10+ required)
-3. **Show Mentors Early** - Get feedback on your approach before building too much
-4. **Test As You Go** - Don't wait until the end to test features
-5. **Keep It Simple First** - Get the core features working, then add extras
-6. **Make It Yours** - Add personal touches that reflect your style
-7. **Document Everything** - Good comments and README are crucial
-
----
-
 ## API Resources
 
-### Adzuna API (Recommended)
+### Adzuna API
 - **Website:** https://developer.adzuna.com/
 - **Free Tier:** Yes (5,000 calls/month)
 - **Documentation:** Excellent
@@ -265,10 +220,4 @@ Before you start coding, think about:
 
 ## Final Thoughts
 
-This project shows you're not just learning to code - you're using code to solve real problems in your life. That's exactly what employers want to see. Build something you're proud of, and it will shine through in your presentations and interviews.
-
-Good luck! 🚀
-
----
-
-**Remember:** This is YOUR project. Feel free to adapt these ideas to match your interests and skills. The most impressive projects are the ones where the developer's passion shows through.
+This project shows I'm not just learning to code - I'm using code to solve real problems in my life. 
