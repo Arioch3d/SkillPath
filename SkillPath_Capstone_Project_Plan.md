@@ -25,7 +25,7 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 - Categorize skills (Frontend, Backend, DevOps, Soft Skills, etc.)
 - Track when skills were added and last updated
 
-### 2. Job Board Integration (API - REQUIRED ✅)
+### 2. Job Board Integration (API - REQUIRED)
 - Use **Adzuna API**, **GitHub Jobs API**, or **The Muse API**
 - Search jobs by keywords, location, and filters
 - Display relevant positions based on user's tracked skills
@@ -64,13 +64,13 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 - Saved/bookmarked jobs section
 - "Match score" showing how well jobs align with your skills
 
-**Page 3 (Optional/Bonus) - Resources:**
+**Page 3 (Optional) - Resources:**
 - Learning materials organized by category
 - Progress tracking on courses/tutorials
 - Search and filter functionality
 - Links to external resources
 
-**Page 4 (Optional/Bonus) - Goals:**
+**Page 4 (Optional) - Goals:**
 - Goal creation form
 - Visual goal tracker
 - Milestone breakdown
@@ -92,7 +92,6 @@ A **Career Skills Tracker & Learning Hub** is perfect for your capstone because 
 - User registration/login system (if you want to go further)
 - Export data as PDF or CSV
 - Email notifications for new job matches
-- Dark mode toggle
 
 ---
 
