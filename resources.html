@@ -3,11 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillPath - Resource Page</title>
+     <title>Skill Scout</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">SkillPath</a>
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="skills.html">Skills</a>
+                <a href="jobs.html">Jobs</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="resources-page container">
+            <h1>Learning Resources</h1>
+            <p>Select a skill to discover curated learning resources from the web.</p>
+
+            <form id="resource-form" class="resource-form">
+                <label for="skill-select">Choose a skill:</label>
+                <select id="skill-select">
+                    <option value="">-- Select Skill --</option>
+                </select>
+
+                <label for="search-input">Or enter custom search:</label>
+                <input id="search-input" type="text" placeholder="e.g., JavaScript frameworks" />
+
+                <button type="submit" class="btn-primary">Search Resources</button>
+            </form>
+
+            <div id="resources-results" class="resources-results"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 SkillPath</p>
+        </div>
+    </footer>
+
+    <script src="./js/resource.js"></script>
+    <script src="./js/skills.js"></script>
+        
 </body>
 </html>
