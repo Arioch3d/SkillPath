@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPath - Skill Tracking Hub</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">SkillPath</a>
+            <nav class="main-nav">
+                <a href="skills.html">Skills</a>
+                <a href="jobs.html">Jobs</a>
+                <a href="resources.html">Resources</a>
+                <a href="#contact" class="btn-secondary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>Build, Track, and Accelerate Your Career Skills</h1>
+                <p>SkillPath is a professional skill tracking platform designed for continuous growth. Set goals, monitor progress, and position yourself for your next opportunity with confidence.</p>
+                <div class="hero-actions">
+                    <a href="#features" class="btn-primary">Explore Features</a>
+                    <a href="skills.html" class="btn-secondary">View Skill Library</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2>Why SkillPath?</h2>
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <h3>Set Structured Goals</h3>
+                        <p>Create measurable development plans and milestones to keep your skill journey on track.</p>
+                    </article>
+                    <article class="feature-card">
+                        <h3>Track Progress Visually</h3>
+                        <p>Use dashboards, timelines, and progress bars to see your improvement over weeks and months.</p>
+                    </article>
+                    <article class="feature-card">
+                        <h3>Connect to Career Outcomes</h3>
+                        <p>Map skills to roles and certifications so you can align development with real-world job growth.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>Start Your Professional Skill Journey</h2>
+                <p>Whether you're a student, early-career professional, or experienced leader, SkillPath gives you a clear path to improve, demonstrate, and showcase your strengths.</p>
+                <ul>
+                    <li>Personal progress monitoring</li>
+                    <li>Skill recommendations based on goals</li>
+                    <li>Portfolio-ready achievement summaries</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 SkillPath. Crafted for purposeful career growth.</p>
+            <p>Contact: <a href="mailto:hello@skillpath.example">hello@skillpath.example</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const root = document.documentElement;
+
+        const applyTheme = (theme) => {
+            root.setAttribute('data-theme', theme);
+            localStorage.setItem('skillpath-theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        };
+
+        const storedTheme = localStorage.getItem('skillpath-theme');
+        const defaultTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        applyTheme(storedTheme || defaultTheme);
+
+        themeToggle.addEventListener('click', () => {
+            applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        });
+    </script>
+</body>
+</html>
