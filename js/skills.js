@@ -60,6 +60,12 @@
                 submitBtn.textContent = 'Add Skill';
                 skillIdInput.value = '';
             } else {
+                // Check for duplicate skill name (case-insensitive)
+                const existingSkill = skills.find(skill => skill.name.toLowerCase() === name.toLowerCase());
+                if (existingSkill) {
+                    alert(`A skill with the name "${name}" already exists. Please choose a different name.`);
+                    return;
+                }
                 skills.push({ id: crypto.randomUUID(), name, progress });
             }
 
