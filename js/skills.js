@@ -23,7 +23,9 @@
                 return;
             }
 
-            skillsListEl.innerHTML = skills.map(skill => `
+            const sortedSkills = [...skills].sort((a, b) => b.progress - a.progress);
+
+            skillsListEl.innerHTML = sortedSkills.map(skill => `
                 <article class="skill-card" data-id="${skill.id}">
                     <div class="skill-header">
                         <h3>${skill.name}</h3>

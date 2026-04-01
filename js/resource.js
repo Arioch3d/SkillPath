@@ -1,6 +1,6 @@
 const SKILLS_KEY = 'skillpath-skills';
-const BRAVE_SEARCH_API_KEY = 'BSA7sgjuOEpbVfIdGe4Kn_w9d7CCMH8'; 
-const BRAVE_SEARCH_URL = 'https://api.search.brave.com/res/v1/web_search';
+const BRAVE_SEARCH_API_KEY = 'YOUR_BRAVE_SEARCH_API_KEY_HERE'; // Replace with your actual Brave Search API key
+const BRAVE_SEARCH_URL = 'https://api.search.brave.com/res/v1/web/search';
 const skills = JSON.parse(localStorage.getItem(SKILLS_KEY) || '[]');
 const selectEl = document.getElementById('skill-select');
 const form = document.getElementById('resource-form');
@@ -23,25 +23,29 @@ skills.forEach(skill => {
             event.preventDefault();
             const skillName = selectEl.value.trim();
             const customQuery = document.getElementById('search-input').value.trim();
-            const query = customQuery || (skillName ? `${skillName} learning resources` : '');
+            let query;
 
-            if (!query) {
-                resultsEl.innerHTML = '<p>Please select a skill or enter a search query.</p>';
+            if (customQuery) {
+                query = customQuery;
+            } else if (skillName) {
+                query = `${skillName} learning resources`;
+            } else if (skills.length > 0) {
+                // Search for all skills if no specific selection
+                const skillNames = skills.map(skill => skill.name).join(' OR ');
+                query = `${skillNames} learning resources`;
+            } else {
+                resultsEl.innerHTML = '<p>Please select a skill, enter a search query, or add skills on the Skills page.</p>';
                 return;
             }
 
             resultsEl.innerHTML = '<p>Searching Brave...</p>';
 
             try {
-                const requestUrl = `${BRAVE_SEARCH_URL}?${new URLSearchParams({ q: query, limit: '10' }).toString()}`;
+                const requestUrl = `${BRAVE_SEARCH_URL}?${new URLSearchParams({ q: query, count: '10' }).toString()}`;
                 const headers = {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'X-Subscription-Token': BRAVE_SEARCH_API_KEY
                 };
-
-                if (BRAVE_SEARCH_API_KEY) {
-                    // Brave uses x-api-key for API access (or check their most recent docs)
-                    headers['x-api-key'] = BRAVE_SEARCH_API_KEY;
-                }
 
                 const response = await fetch(requestUrl, { headers });
 
@@ -51,11 +55,11 @@ skills.forEach(skill => {
 
                 const data = await response.json();
 
-                const displayTerm = customQuery || skillName || query;
+                const displayTerm = customQuery || skillName || 'all your skills';
                 let html = `<h2>Brave Search results for "${displayTerm}"</h2>`;
 
-                const braveWebSearchUrl = `https://search.brave.com/search?q=${encodeURIComponent(displayTerm + ' learning resources')}`;
-                html += `<p><a href="${braveWebSearchUrl}" target="_blank" rel="noopener noreferrer">Open full Brave search for learning resources about "${displayTerm}"</a></p>`;
+                const braveWebSearchUrl = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+                html += `<p><a href="${braveWebSearchUrl}" target="_blank" rel="noopener noreferrer">Open full Brave search for "${displayTerm}"</a></p>`;
 
                 const results = data.web_results || data.results || [];
 
