@@ -1,6 +1,5 @@
 const SKILLS_KEY = 'skillpath-skills';
-const BRAVE_SEARCH_API_KEY = 'YOUR_BRAVE_SEARCH_API_KEY_HERE'; // Replace with your actual Brave Search API key
-const BRAVE_SEARCH_URL = 'https://api.search.brave.com/res/v1/web/search';
+const DUCKDUCKGO_API_URL = 'https://api.duckduckgo.com/';
 const skills = JSON.parse(localStorage.getItem(SKILLS_KEY) || '[]');
 const selectEl = document.getElementById('skill-select');
 const form = document.getElementById('resource-form');
@@ -12,85 +11,103 @@ skills.forEach(skill => {
     option.value = skill.name;
     option.textContent = skill.name;
     selectEl.appendChild(option);
-        });
+});
 
-    if (skills.length === 0) {
-        selectEl.innerHTML = '<option value="">No skills added yet. Add skills on the Skills page.</option>';
-        selectEl.disabled = true;
+if (skills.length === 0) {
+    selectEl.innerHTML = '<option value="">No skills added yet. Add skills on the Skills page.</option>';
+    selectEl.disabled = true;
+}
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const skillName = selectEl.value.trim();
+    const customQuery = document.getElementById('search-input').value.trim();
+    let query;
+
+    if (customQuery) {
+        query = customQuery;
+    } else if (skillName) {
+        query = `${skillName} learning resources`;
+    } else if (skills.length > 0) {
+        // Search for all skills if no specific selection
+        const skillNames = skills.map(skill => skill.name).join(' OR ');
+        query = `${skillNames} learning resources`;
+    } else {
+        resultsEl.innerHTML = '<p>Please select a skill, enter a search query, or add skills on the Skills page.</p>';
+        return;
+    }
+
+    resultsEl.innerHTML = '<p>Searching for training resources...</p>';
+
+    try {
+        const requestUrl = `${DUCKDUCKGO_API_URL}?${new URLSearchParams({ 
+            q: query, 
+            format: 'json',
+            no_html: '1',
+            skip_disambig: '1'
+        }).toString()}`;
+
+        const response = await fetch(requestUrl);
+
+        if (!response.ok) {
+            throw new Error(`DuckDuckGo API error: ${response.status} ${response.statusText}`);
         }
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const skillName = selectEl.value.trim();
-            const customQuery = document.getElementById('search-input').value.trim();
-            let query;
+        const data = await response.json();
 
-            if (customQuery) {
-                query = customQuery;
-            } else if (skillName) {
-                query = `${skillName} learning resources`;
-            } else if (skills.length > 0) {
-                // Search for all skills if no specific selection
-                const skillNames = skills.map(skill => skill.name).join(' OR ');
-                query = `${skillNames} learning resources`;
-            } else {
-                resultsEl.innerHTML = '<p>Please select a skill, enter a search query, or add skills on the Skills page.</p>';
-                return;
+        const displayTerm = customQuery || skillName || 'all your skills';
+        let html = `<h2>Training Resources for "${displayTerm}"</h2>`;
+
+        const duckDuckGoUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}&ia=web`;
+        html += `<p><a href="${duckDuckGoUrl}" target="_blank" rel="noopener noreferrer">View more results on DuckDuckGo</a></p>`;
+
+        // Check for instant answer
+        if (data.Answer) {
+            html += '<h3>Instant Answer</h3>';
+            html += `<p>${data.Answer}</p>`;
+        }
+
+        // Check for abstract (definition/summary)
+        if (data.AbstractText) {
+            html += '<h3>Summary</h3>';
+            html += `<p>${data.AbstractText}</p>`;
+            if (data.AbstractURL) {
+                html += `<p><a href="${data.AbstractURL}" target="_blank" rel="noopener noreferrer">Read more</a></p>`;
             }
+        }
 
-            resultsEl.innerHTML = '<p>Searching Brave...</p>';
+        // Check for related topics
+        if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+            html += '<h3>Related Learning Resources</h3>';
+            html += '<div class="resource-grid">';
 
-            try {
-                const requestUrl = `${BRAVE_SEARCH_URL}?${new URLSearchParams({ q: query, count: '10' }).toString()}`;
-                const headers = {
-                    'Accept': 'application/json',
-                    'X-Subscription-Token': BRAVE_SEARCH_API_KEY
-                };
+            data.RelatedTopics.slice(0, 8).forEach(topic => {
+                if (topic.Text && topic.FirstURL) {
+                    const title = topic.Text.split(' - ')[0] || topic.Text;
+                    const snippet = topic.Text.split(' - ').slice(1).join(' - ') || '';
 
-                const response = await fetch(requestUrl, { headers });
-
-                if (!response.ok) {
-                    throw new Error(`Brave API error: ${response.status} ${response.statusText}`);
+                    html += `
+                        <article class="resource-card">
+                            <h4>${title}</h4>
+                            <p class="resource-snippet">${snippet}</p>
+                            <p><a href="${topic.FirstURL}" target="_blank" rel="noopener noreferrer">Open resource</a></p>
+                        </article>
+                    `;
                 }
+            });
 
-                const data = await response.json();
+            html += '</div>';
+        }
 
-                const displayTerm = customQuery || skillName || 'all your skills';
-                let html = `<h2>Brave Search results for "${displayTerm}"</h2>`;
+        // If no instant answer or related topics, show general search link
+        if (!data.Answer && !data.AbstractText && (!data.RelatedTopics || data.RelatedTopics.length === 0)) {
+            html += '<h3>Search Results</h3>';
+            html += `<p>No instant answers found. <a href="${duckDuckGoUrl}" target="_blank" rel="noopener noreferrer">Search DuckDuckGo directly</a> for more results.</p>`;
+        }
 
-                const braveWebSearchUrl = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
-                html += `<p><a href="${braveWebSearchUrl}" target="_blank" rel="noopener noreferrer">Open full Brave search for "${displayTerm}"</a></p>`;
-
-                const results = data.web_results || data.results || [];
-
-                if (results.length > 0) {
-                    html += '<h3>Top 10 learning results</h3>';
-                    html += '<div class="resource-grid">';
-
-                    results.slice(0, 10).forEach(item => {
-                        const title = item.title || item.name || displayTerm;
-                        const snippet = item.snippet || item.description || item.snippet_text || '';
-                        const href = item.url || item.link || '#';
-                        const fallbackBraveLink = `https://search.brave.com/search?q=${encodeURIComponent((item.title || displayTerm) + ' learning resources')}`;
-
-                        html += `
-                            <article class="resource-card">
-                                <h4>${title}</h4>
-                                <p class="resource-snippet">${snippet}</p>
-                                <p><a href="${href}" target="_blank" rel="noopener noreferrer">Open source</a></p>
-                                <p><a href="${fallbackBraveLink}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Search this on Brave</a></p>
-                            </article>
-                        `;
-                    });
-
-                    html += '</div>';
-                } else {
-                    html += '<p>No results found from Brave. Try another search phrase.</p>';
-                }
-
-                resultsEl.innerHTML = html;
-            } catch (error) {
-                resultsEl.innerHTML = '<p>Error fetching resources. Please try again later.</p>';
-                console.error('Fetch error:', error);
-            }
-        });
+        resultsEl.innerHTML = html;
+    } catch (error) {
+        resultsEl.innerHTML = '<p>Error fetching resources. Please check your internet connection and try again.</p>';
+        console.error('Fetch error:', error);
+    }
+});
