@@ -1,5 +1,5 @@
 const SKILLS_KEY = 'skillpath-skills';
-const BRAVE_SEARCH_API_KEY = ''; // Insert your brave api key here, e.g. 'xxyyzz'
+const BRAVE_SEARCH_API_KEY = 'BSA7sgjuOEpbVfIdGe4Kn_w9d7CCMH8'; 
 const BRAVE_SEARCH_URL = 'https://api.search.brave.com/res/v1/web_search';
 const skills = JSON.parse(localStorage.getItem(SKILLS_KEY) || '[]');
 const selectEl = document.getElementById('skill-select');
