@@ -412,3 +412,75 @@ html, body {
 .resources-results a:hover {
     text-decoration: underline;
 }
+
+/* Portfolio Section Styling */
+.portfolio-section {
+    background: var(--white);
+    border: 1px solid #e5e7eb;
+    border-radius: 0.65rem;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.portfolio-section h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-size: 1.5rem;
+}
+
+.portfolio-section p {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+}
+
+.achievement-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.achievement-card {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dbeafe 100%);
+    border: 1px solid #bbf7d0;
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-card h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1.1rem;
+    color: #065f46;
+}
+
+.achievement-card p {
+    margin: 0.5rem 0;
+    color: #1f2937;
+    line-height: 1.5;
+}
+
+.achievement-card .big-stat {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.achievement-card .big-stat.progress-low {
+    color: #dc2626;
+}
+
+.achievement-card .big-stat.progress-mid {
+    color: #f59e0b;
+}
+
+.achievement-card .big-stat.progress-high {
+    color: #16a34a;
+}

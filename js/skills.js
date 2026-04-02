@@ -49,6 +49,102 @@
             avgLabel.textContent = `${avg}%`;
         }
 
+        function renderPortfolioSummary() {
+            if (skills.length === 0) {
+                document.getElementById('achievement-summaries').innerHTML = '<p>Add skills above to see your portfolio summary.</p>';
+                document.getElementById('copy-summary-btn').style.display = 'none';
+                return;
+            }
+
+            // Categorize skills by proficiency
+            const expert = skills.filter(s => s.progress >= 90);
+            const advanced = skills.filter(s => s.progress >= 70 && s.progress < 90);
+            const intermediate = skills.filter(s => s.progress >= 40 && s.progress < 70);
+            const beginner = skills.filter(s => s.progress < 40);
+
+            const avg = Math.round(skills.reduce((sum, s) => sum + s.progress, 0) / skills.length);
+
+            let html = '<div class="achievement-cards">';
+
+            // Overall Achievement
+            html += '<article class="achievement-card">';
+            html += '<h3>Overall Proficiency</h3>';
+            let proficiencyLevel = 'Beginner';
+            let proficiencyColor = 'progress-low';
+            if (avg >= 90) {
+                proficiencyLevel = 'Expert';
+                proficiencyColor = 'progress-high';
+            } else if (avg >= 70) {
+                proficiencyLevel = 'Advanced';
+                proficiencyColor = 'progress-high';
+            } else if (avg >= 40) {
+                proficiencyLevel = 'Intermediate';
+                proficiencyColor = 'progress-mid';
+            }
+            html += `<p class="big-stat ${proficiencyColor}">${proficiencyLevel}</p>`;
+            html += `<p>${avg}% average across ${skills.length} skill${skills.length !== 1 ? 's' : ''}</p>`;
+            html += '</article>';
+
+            // Expert Skills
+            if (expert.length > 0) {
+                html += '<article class="achievement-card">';
+                html += '<h3>🏆 Expert Skills</h3>';
+                html += '<p>' + expert.map(s => s.name).join(', ') + '</p>';
+                html += '</article>';
+            }
+
+            // Advanced Skills
+            if (advanced.length > 0) {
+                html += '<article class="achievement-card">';
+                html += '<h3>📈 Advanced Skills</h3>';
+                html += '<p>' + advanced.map(s => s.name).join(', ') + '</p>';
+                html += '</article>';
+            }
+
+            // Intermediate Skills
+            if (intermediate.length > 0) {
+                html += '<article class="achievement-card">';
+                html += '<h3>📚 Intermediate Skills</h3>';
+                html += '<p>' + intermediate.map(s => s.name).join(', ') + '</p>';
+                html += '</article>';
+            }
+
+            // Beginner Skills
+            if (beginner.length > 0) {
+                html += '<article class="achievement-card">';
+                html += '<h3>🌱 Learning Skills</h3>';
+                html += '<p>' + beginner.map(s => s.name).join(', ') + '</p>';
+                html += '</article>';
+            }
+
+            html += '</div>';
+
+            // Generate text summary for copying
+            let textSummary = `Professional Skill Summary\n`;
+            textSummary += `================================\n`;
+            textSummary += `Overall Proficiency: ${proficiencyLevel} (${avg}%)\n\n`;
+            if (expert.length > 0) textSummary += `Expert Skills: ${expert.map(s => s.name).join(', ')}\n`;
+            if (advanced.length > 0) textSummary += `Advanced Skills: ${advanced.map(s => s.name).join(', ')}\n`;
+            if (intermediate.length > 0) textSummary += `Intermediate Skills: ${intermediate.map(s => s.name).join(', ')}\n`;
+            if (beginner.length > 0) textSummary += `Learning Skills: ${beginner.map(s => s.name).join(', ')}\n`;
+
+            document.getElementById('achievement-summaries').innerHTML = html;
+            document.getElementById('achievement-summaries').dataset.summary = textSummary;
+            document.getElementById('copy-summary-btn').style.display = 'inline-block';
+        }
+
+        document.getElementById('copy-summary-btn').addEventListener('click', () => {
+            const summary = document.getElementById('achievement-summaries').dataset.summary;
+            navigator.clipboard.writeText(summary).then(() => {
+                const btn = document.getElementById('copy-summary-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        });
+
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             const name = nameInput.value.trim();
@@ -77,6 +173,7 @@
 
             saveSkills();
             renderSkills();
+            renderPortfolioSummary();
         });
 
         progressInput.addEventListener('input', () => {
@@ -94,6 +191,7 @@
                 skills = skills.filter(skill => skill.id !== id);
                 saveSkills();
                 renderSkills();
+                renderPortfolioSummary();
             }
 
             if (action === 'edit') {
@@ -109,3 +207,4 @@
         });
 
         renderSkills();
+        renderPortfolioSummary();
