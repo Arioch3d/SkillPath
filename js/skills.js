@@ -62,7 +62,7 @@
                 submitBtn.textContent = 'Add Skill';
                 skillIdInput.value = '';
             } else {
-                // Check for duplicate skill name (case-insensitive)
+                // Checking for duplicate skill name so no duplicates are added.
                 const existingSkill = skills.find(skill => skill.name.toLowerCase() === name.toLowerCase());
                 if (existingSkill) {
                     alert(`A skill with the name "${name}" already exists. Please choose a different name.`);

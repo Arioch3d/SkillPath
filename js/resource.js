@@ -5,7 +5,7 @@ const selectEl = document.getElementById('skill-select');
 const form = document.getElementById('resource-form');
 const resultsEl = document.getElementById('resources-results');
 
-// Populate skill options
+// Populate skill options from the Skills page
 skills.forEach(skill => {
     const option = document.createElement('option');
     option.value = skill.name;
@@ -24,12 +24,14 @@ form.addEventListener('submit', async (event) => {
     const customQuery = document.getElementById('search-input').value.trim();
     let query;
 
-    if (customQuery) {
+    if (skillName && customQuery) {
+        query = `${skillName} ${customQuery}`;
+    } else if (customQuery) {
         query = customQuery;
     } else if (skillName) {
         query = `${skillName} learning resources`;
     } else if (skills.length > 0) {
-        // Search for all skills if no specific selection
+        // Search for all skills if no specific selection is made
         const skillNames = skills.map(skill => skill.name).join(' OR ');
         query = `${skillNames} learning resources`;
     } else {
@@ -55,19 +57,50 @@ form.addEventListener('submit', async (event) => {
 
         const data = await response.json();
 
-        const displayTerm = customQuery || skillName || 'all your skills';
+        const displayTerm = (skillName && customQuery) ? `${skillName} ${customQuery}` : (customQuery || skillName || 'all your skills');
         let html = `<h2>Training Resources for "${displayTerm}"</h2>`;
+
+        // Show summary information from Skills page if a skill is selected
+        if (skillName) {
+            const selectedSkill = skills.find(skill => skill.name === skillName);
+            if (selectedSkill) {
+                html += '<div class="search-summary">';
+                html += `<h3>Selected Skill: ${skillName}</h3>`;
+                html += `<p>Current progress: ${selectedSkill.progress}% complete</p>`;
+                //html += `<p>Skill ID: ${selectedSkill.id}</p>`;
+                html += '</div>';
+            }
+        }
+
+        if (customQuery) {
+            html += '<div class="search-summary">';
+            html += `<h3>Custom Search: "${customQuery}"</h3>`;
+            if (skillName) {
+                html += `<p>Combined with skill: ${skillName}</p>`;
+            }
+            html += '</div>';
+        }
+
+        if (!skillName && !customQuery && skills.length > 0) {
+            html += '<div class="search-summary">';
+            html += '<h3>Searching All Skills</h3>';
+            html += `<p>Total skills: ${skills.length}</p>`;
+            const avgProgress = Math.round(skills.reduce((sum, skill) => sum + skill.progress, 0) / skills.length);
+            html += `<p>Average completion: ${avgProgress}%</p>`;
+            html += '<p>Skills: ' + skills.map(skill => `${skill.name} (${skill.progress}%)`).join(', ') + '</p>';
+            html += '</div>';
+        }
 
         const duckDuckGoUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}&ia=web`;
         html += `<p><a href="${duckDuckGoUrl}" target="_blank" rel="noopener noreferrer">View more results on DuckDuckGo</a></p>`;
 
-        // Check for instant answer
+        // Checking for instant answer
         if (data.Answer) {
             html += '<h3>Instant Answer</h3>';
             html += `<p>${data.Answer}</p>`;
         }
 
-        // Check for abstract (definition/summary)
+        // Checking for abstract (definition/summary)
         if (data.AbstractText) {
             html += '<h3>Summary</h3>';
             html += `<p>${data.AbstractText}</p>`;
@@ -76,7 +109,7 @@ form.addEventListener('submit', async (event) => {
             }
         }
 
-        // Check for related topics
+        // Checking for related topics
         if (data.RelatedTopics && data.RelatedTopics.length > 0) {
             html += '<h3>Related Learning Resources</h3>';
             html += '<div class="resource-grid">';
@@ -99,10 +132,76 @@ form.addEventListener('submit', async (event) => {
             html += '</div>';
         }
 
-        // If no instant answer or related topics, show general search link
+        // If no instant answer or related topics, show search results based on skill selection
         if (!data.Answer && !data.AbstractText && (!data.RelatedTopics || data.RelatedTopics.length === 0)) {
             html += '<h3>Search Results</h3>';
-            html += `<p>No instant answers found. <a href="${duckDuckGoUrl}" target="_blank" rel="noopener noreferrer">Search DuckDuckGo directly</a> for more results.</p>`;
+            
+            // Curated resources by skill to display if no instant answer is available.
+            const skillResources = {
+                'javascript': [
+                    { title: 'MDN Web Docs - JavaScript', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/' },
+                    { title: 'JavaScript.info', url: 'https://javascript.info/' },
+                    { title: 'freeCodeCamp JavaScript Course', url: 'https://www.freecodecamp.org/learn/javascript/' },
+                    { title: 'Codecademy JavaScript', url: 'https://www.codecademy.com/learn/introduction-to-javascript' }
+                ],
+                'python': [
+                    { title: 'Official Python Documentation', url: 'https://docs.python.org/3/' },
+                    { title: 'Real Python Tutorials', url: 'https://realpython.com/' },
+                    { title: 'freeCodeCamp Python Course', url: 'https://www.freecodecamp.org/learn/python-for-everybody/' },
+                    { title: 'Automate the Boring Stuff', url: 'https://automatetheboringstuff.com/' }
+                ],
+                'html': [
+                    { title: 'MDN Web Docs - HTML', url: 'https://developer.mozilla.org/en-US/docs/Web/HTML' },
+                    { title: 'HTML.com Tutorials', url: 'https://html.com/' },
+                    { title: 'freeCodeCamp HTML & CSS', url: 'https://www.freecodecamp.org/learn/responsive-web-design/' },
+                    { title: 'W3Schools HTML', url: 'https://www.w3schools.com/html/' }
+                ],
+                'css': [
+                    { title: 'MDN Web Docs - CSS', url: 'https://developer.mozilla.org/en-US/docs/Web/CSS' },
+                    { title: 'CSS-Tricks', url: 'https://css-tricks.com/' },
+                    { title: 'W3Schools CSS', url: 'https://www.w3schools.com/css/' },
+                    { title: 'freeCodeCamp Responsive Web Design', url: 'https://www.freecodecamp.org/learn/responsive-web-design/' }
+                ],
+                'react': [
+                    { title: 'Official React Documentation', url: 'https://react.dev/' },
+                    { title: 'freeCodeCamp React Course', url: 'https://www.freecodecamp.org/learn/front-end-development-libraries/react/' },
+                    { title: 'Scrimba React Course', url: 'https://scrimba.com/learn/learnreact' },
+                    { title: 'React Patterns', url: 'https://reactpatterns.com/' }
+                ],
+                'sql': [
+                    { title: 'Mode SQL Tutorial', url: 'https://mode.com/sql-tutorial/' },
+                    { title: 'SQLZoo Interactive SQL', url: 'https://sqlzoo.net/' },
+                    { title: 'Codecademy SQL', url: 'https://www.codecademy.com/learn/learn-sql' },
+                    { title: 'Khan Academy SQL', url: 'https://www.khanacademy.org/computing/computer-programming/sql' }
+                ],
+                'git': [
+                    { title: 'Official Git Book', url: 'https://git-scm.com/book/en/v2' },
+                    { title: 'GitHub Learning Lab', url: 'https://github.com/skills' },
+                    { title: 'Atlassian Git Tutorials', url: 'https://www.atlassian.com/git/tutorials' },
+                    { title: 'freeCodeCamp Git Tutorial', url: 'https://www.freecodecamp.org/learn/version-control-with-git/' }
+                ]
+            };
+            
+            let resources = [];
+            if (skillName) {
+                const skillKey = skillName.toLowerCase();
+                resources = skillResources[skillKey] || [];
+            }
+            
+            if (resources.length > 0) {
+                html += '<div class="resource-grid">';
+                resources.forEach(resource => {
+                    html += `
+                        <article class="resource-card">
+                            <h4>${resource.title}</h4>
+                            <p><a href="${resource.url}" target="_blank" rel="noopener noreferrer">Visit Resource</a></p>
+                        </article>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html += `<p>No specific resources available. <a href="${duckDuckGoUrl}" target="_blank" rel="noopener noreferrer">Search DuckDuckGo directly</a> for more results.</p>`;
+            }
         }
 
         resultsEl.innerHTML = html;
