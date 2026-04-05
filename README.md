@@ -1,8 +1,10 @@
 # SkillPath
 
+---
+
 ## Purpose
 
-SkillPath is a professional skill tracking platform designed for continuous growth. It helps users build, track, and accelerate their career skills by setting structured goals, monitoring progress visually, and connecting skills to real-world career outcomes. The platform provides a comprehensive skill library, job tracking features (coming soon), and resource recommendations to support professional development.
+## SkillPath is a professional skill tracking platform designed for continuous growth. It helps users build, track, and accelerate their career skills by setting structured goals, monitoring progress visually, and connecting skills to real-world career outcomes. The platform provides a comprehensive skill library, job tracking features (coming soon), and resource recommendations to support professional development.
 
 ## Technologies Used
 
@@ -10,7 +12,21 @@ SkillPath is a professional skill tracking platform designed for continuous grow
 - **CSS3**: For styling and layout, including responsive design and dark mode support.
 - **JavaScript (ES6+)**: For interactive features such as dark mode toggle with local storage persistence.
 
-The site is built as a static web application, requiring no server-side components or databases.
+### API:
+
+- **DuckDuckGo Free API**: Used on the Resource page to search DuckDuckGo for resources the user wants to search for.
+
+### Libraries/Tools:
+
+- **LocalStorage** - To store user data persistently in the browser.
+
+### Version Control:
+
+- **Git/GitHub** - Will use GitHub to track changes.
+
+---
+
+## The site is built as a static web application, requiring no server-side components or databases.
 
 ## How to Run the Site
 
@@ -20,6 +36,8 @@ The site is built as a static web application, requiring no server-side componen
    - **Skills**: View and manage your skill library.
    - **Jobs**: Track job opportunities and career goals. Future Developement.
    - **Resources**: Access helpful resources for skill development.
+
+---
 
 ### Features
 
@@ -35,3 +53,9 @@ The site is built as a static web application, requiring no server-side componen
 - **No Installation Required**: Runs directly in the browser.
 
 For development or modifications, you can edit the HTML, CSS, and JavaScript files directly and refresh the browser to see changes.
+
+---
+
+## Final Thoughts
+
+This project shows I'm not just learning to code - I'm using code to solve real problems in my life.
