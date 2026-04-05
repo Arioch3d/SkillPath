@@ -4,7 +4,7 @@
 
 ## Purpose
 
-- SkillPath is a professional skill tracking platform designed for continuous growth. It helps users build, track, and accelerate their career skills by setting structured goals, monitoring progress visually, and connecting skills to real-world career outcomes. The platform provides a comprehensive skill library, job tracking features (coming soon), and resource recommendations to support professional development.
+- **SkillPath** is a professional skill tracking platform designed for continuous growth. It helps users build, track, and accelerate their career skills by setting structured goals, monitoring progress visually, and connecting skills to real-world career outcomes. The platform provides a comprehensive skill library, job tracking features (coming soon), and resource recommendations to support professional development.
 
 ## Technologies Used
 
