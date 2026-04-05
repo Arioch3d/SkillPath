@@ -42,7 +42,7 @@
 ### Features
 
 - **Skills Page**: Allows you to enter and track the Skills you have and are working on.
-  - Features Color Bars based on level of Skill, Add, Edit or Delete Skills
+  - Features Color Bars based on level of Skill, Add, Edit or Delete Skills.
   - Block to show level of completetion and which skills fall into each category.
   - The ability to copy all skills to the clipboard for easy pasting into another document.
 - **Resource Page**: Uses DuckDuckGo free API call to search for resources for each selected skill.
