@@ -59,3 +59,9 @@ For development or modifications, you can edit the HTML, CSS, and JavaScript fil
 ## Final Thoughts
 
 This project shows I'm not just learning to code - I'm using code to solve real problems in my life.
+
+---
+
+## AI Disclaimer
+
+I used an AI Chat bot to help me write the content of the index.html page. I did not use it to for the structure or code of any HTML or JavaScript file.
