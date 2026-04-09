@@ -64,4 +64,4 @@ This project shows I'm not just learning to code - I'm using code to solve real 
 
 ## AI Disclaimer
 
-I used an AI Chat bot to help me write the content of the index.html page. I did not use it to for the structure or code of any HTML or JavaScript file.
+I used an AI Chat bot to help me write the content of the index.html page. I did not use it to create or edit the structure or code of any HTML, CSS or JavaScript files.
